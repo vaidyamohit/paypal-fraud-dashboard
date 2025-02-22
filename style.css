@@ -1,0 +1,142 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header {
+    background-color: #0070ba;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    overflow: hidden;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+}
+
+section {
+    padding: 20px;
+    background-color: white;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3, h4 {
+    color: #0070ba;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 100%;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
+
+/* Transaction Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+table th {
+    background-color: #0070ba;
+    color: white;
+}
+
+.approved {
+    background-color: #99ff99;
+}
+
+.review {
+    background-color: #ffcc99;
+}
+
+.flagged {
+    background-color: #ff9999;
+}
+
+/* Dropdown and Button Styles */
+label, select, button {
+    margin: 10px;
+    font-size: 16px;
+}
+
+select {
+    padding: 5px;
+    border-radius: 4px;
+}
+
+button {
+    padding: 6px 12px;
+    background-color: #0070ba;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005f99;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    nav li {
+        float: none;
+    }
+
+    section {
+        margin: 10px;
+    }
+
+    canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    table {
+        font-size: 14px;
+    }
+}

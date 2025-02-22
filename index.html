@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal Fraud Detection Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>PayPal AI-Powered Fraud Detection</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#transactions">Transactions</a></li>
+            <li><a href="#threat-timeline">Threat Timeline</a></li>
+            <li><a href="#dashboard">Dashboards</a></li>
+        </ul>
+    </nav>
+
+    <section id="overview">
+        <h2>Overview</h2>
+        <p>This platform showcases PayPal's AI-powered fraud detection strategy, featuring real-time analytics, risk scoring, predictive analytics, and multi-stakeholder dashboards.</p>
+    </section>
+
+    <section id="transactions">
+        <h2>Transaction Monitoring</h2>
+        <label for="filterRisk">Filter by Risk Score:</label>
+        <select id="filterRisk" onchange="filterTransactions()">
+            <option value="all">All</option>
+            <option value="low">Low (0-40%)</option>
+            <option value="medium">Medium (41-80%)</option>
+            <option value="high">High (81-100%)</option>
+        </select>
+        <table id="transactionTable">
+            <tr>
+                <th>Transaction ID</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Risk Score</th>
+                <th>Status</th>
+                <th>Risk Explanation</th>
+            </tr>
+            <tr><td>TXN001</td><td>John Doe</td><td>$200</td><td>25%</td><td class="approved">Approved ✅</td><td>Normal spending pattern</td></tr>
+            <tr><td>TXN002</td><td>Jane Smith</td><td>$1500</td><td>65%</td><td class="review">Review 🔍</td><td>Unusual purchase location</td></tr>
+            <tr><td>TXN003</td><td>Bob Lee</td><td>$5000</td><td>85%</td><td class="flagged">Flagged 🚩</td><td>High-risk IP address</td></tr>
+            <tr><td>TXN004</td><td>Alice Wong</td><td>$50</td><td>10%</td><td class="approved">Approved ✅</td><td>Frequent buyer</td></tr>
+        </table>
+    </section>
+
+    <section id="threat-timeline">
+        <h2>Threat Landscape Timeline (Real-Time)</h2>
+        <canvas id="threatTimelineChart" width="600" height="400"></canvas>
+    </section>
+
+    <section id="dashboard">
+        <h2>Dashboards</h2>
+
+        <h3>Analyst View</h3>
+        <canvas id="analystChart" width="600" height="400"></canvas>
+
+        <h3>Management View</h3>
+        <canvas id="managementChart" width="600" height="400"></canvas>
+        <canvas id="regionHeatmap" width="600" height="400"></canvas>
+
+        <h3>Compliance View</h3>
+        <canvas id="complianceChart" width="600" height="400"></canvas>
+
+        <h3>Technical View</h3>
+        <label for="timelineSelect">Select Timeline:</label>
+        <select id="timelineSelect">
+            <option value="1">1 Year</option>
+            <option value="2">2 Years</option>
+            <option value="3">3 Years</option>
+            <option value="4">4 Years</option>
+            <option value="5">5 Years</option>
+        </select>
+        <button onclick="downloadLogs()">Download Logs</button>
+        <canvas id="technicalChart" width="600" height="400"></canvas>
+        <canvas id="cpuMemoryChart" width="600" height="400"></canvas>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 PayPal Fraud Detection Dashboard</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Transaction Filtering
+            function filterTransactions() {
+                const filter = document.getElementById('filterRisk').value;
+                const rows = document.querySelectorAll('#transactionTable tr');
+                rows.forEach((row, index) => {
+                    if (index === 0) return;
+                    const risk = parseInt(row.cells[3].innerText);
+                    row.style.display =
+                        (filter === 'all') ||
+                        (filter === 'low' && risk <= 40) ||
+                        (filter === 'medium' && risk > 40 && risk <= 80) ||
+                        (filter === 'high' && risk > 80) ? '' : 'none';
+                });
+            }
+            window.filterTransactions = filterTransactions;
+
+            // Download Logs Functionality
+            window.downloadLogs = function () {
+                const selectedYears = document.getElementById('timelineSelect').value;
+                const element = document.createElement('a');
+                const file = new Blob([`Technical Logs for ${selectedYears} Year(s)`], { type: 'text/plain' });
+                element.href = URL.createObjectURL(file);
+                element.download = `technical_logs_${selectedYears}_years.txt`;
+                document.body.appendChild(element);
+                element.click();
+            }
+
+            // Initialize Charts
+            function initChart(ctx, type, data, options) {
+                return new Chart(ctx, { type, data, options });
+            }
+
+            // Threat Timeline Chart
+            initChart(
+                document.getElementById('threatTimelineChart').getContext('2d'),
+                'line',
+                {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Phishing Attacks',
+                        data: [5, 8, 6, 9, 7, 10],
+                        borderColor: '#ff9999',
+                        fill: false
+                    }, {
+                        label: 'Account Takeovers',
+                        data: [3, 4, 5, 6, 7, 8],
+                        borderColor: '#66b3ff',
+                        fill: false
+                    }]
+                },
+                { responsive: true, title: { display: true, text: 'Threat Timeline' } }
+            );
+
+            // Analyst Chart
+            initChart(
+                document.getElementById('analystChart').getContext('2d'),
+                'bar',
+                {
+                    labels: ['Approved', 'Review', 'Flagged'],
+                    datasets: [{
+                        label: 'Transactions',
+                        data: [120, 45, 15],
+                        backgroundColor: ['#99ff99', '#ffcc99', '#ff9999']
+                    }]
+                },
+                { responsive: true, title: { display: true, text: 'Analyst View' } }
+            );
+
+            // Management Chart
+            initChart(
+                document.getElementById('managementChart').getContext('2d'),
+                'pie',
+                {
+                    labels: ['Fraud Loss', 'Recovered', 'Pending'],
+                    datasets: [{
+                        data: [50000, 20000, 10000],
+                        backgroundColor: ['#ff9999', '#66b3ff', '#ffcc99']
+                    }]
+                },
+                { responsive: true, title: { display: true, text: 'Management Overview' } }
+            );
+
+            // Region Heatmap
+            initChart(
+                document.getElementById('regionHeatmap').getContext('2d'),
+                'bar',
+                {
+                    labels: ['North America', 'Europe', 'Asia', 'South America', 'Africa'],
+                    datasets: [{
+                        label: 'Fraud Loss ($)',
+                        data: [30000, 20000, 15000, 10000, 5000],
+                        backgroundColor: '#ff9999'
+                    }]
+                },
+                { responsive: true, title: { display: true, text: 'Region-wise Fraud Loss' } }
+            );
+
+            // Compliance Chart
+            initChart(
+                document.getElementById('complianceChart').getContext('2d'),
+                'doughnut',
+                {
+                    labels: ['GLBA', 'PCI DSS', 'CCPA'],
+                    datasets: [{
+                        data: [90, 85, 95],
+                        backgroundColor: ['#99ff99', '#66b3ff', '#ffcc99']
+                    }]
+                },
+                { responsive: true, title: { display: true, text: 'Regulatory Compliance' } }
+            );
+
+            // Technical Chart
+            initChart(
+                document.getElementById('technicalChart').getContext('2d'),
+                'line',
+                {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [{
+                        label: 'System Latency (ms)',
+                        data: [150, 160, 140, 130],
+                        borderColor: '#66b3ff',
+                        fill: false
+                    }]
+                },
+                { responsive: true, title: { display: true, text: 'System Performance' } }
+            );
+
+            // CPU & Memory Usage Chart
+            initChart(
+                document.getElementById('cpuMemoryChart').getContext('2d'),
+                'bar',
+                {
+                    labels: ['CPU Usage', 'Memory Usage'],
+                    datasets: [{
+                        label: 'Usage (%)',
+                        data: [75, 65],
+                        backgroundColor: ['#ffcc99', '#66b3ff']
+                    }]
+                },
+                { responsive: true, title: { display: true, text: 'CPU & Memory Usage' } }
+            );
+        });
+    </script>
+</body>
+</html>
